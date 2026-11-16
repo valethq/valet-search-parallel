@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "id": "valet-search-parallel",
+  "name": "Parallel Search",
+  "version": "0.1.0",
+  "description": "web_search_parallel and web_fetch_parallel tools backed by the Parallel API.",
+  "repository": "https://github.com/valethq/valet-search-parallel",
+  "valet": "^0.1.0",
+  "main": "./src/index.ts",
+  "provides": ["tools@1"],
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "secret": {
+        "type": "string"
+      },
+      "baseUrl": {
+        "type": "string"
+      },
+      "mode": {
+        "type": "string",
+        "enum": ["fast", "turbo", "basic", "advanced"]
+      },
+      "numResults": {
+        "type": "number"
+      },
+      "maxCharacters": {
+        "type": "number"
+      },
+      "timeoutMs": {
+        "type": "number"
+      },
+      "minRole": {
+        "type": "string",
+        "enum": ["owner", "trusted", "guest"]
+      }
+    }
+  }
+}
