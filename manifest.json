@@ -11,29 +11,62 @@
   "configSchema": {
     "type": "object",
     "additionalProperties": false,
+    "x-group": "tools",
+    "x-icon": "search",
     "properties": {
       "secret": {
-        "type": "string"
+        "type": "string",
+        "title": "API key secret",
+        "description": "Secret name (~/.valet/secrets/<name>, then env <NAME>).",
+        "default": "parallel_api_key",
+        "x-widget": "secret"
       },
       "baseUrl": {
-        "type": "string"
+        "type": "string",
+        "title": "Base URL",
+        "description": "Parallel API base URL. Override for tests or a proxy.",
+        "default": "https://api.parallel.ai",
+        "x-advanced": true
       },
       "mode": {
         "type": "string",
-        "enum": ["fast", "turbo", "basic", "advanced"]
+        "title": "Mode",
+        "description": "Parallel's search mode or depth.",
+        "enum": ["fast", "turbo", "basic", "advanced"],
+        "enumNames": ["Fast (~700 ms)", "Turbo (~200 ms)", "Basic", "Advanced (highest quality)"],
+        "default": "fast"
       },
       "numResults": {
-        "type": "number"
+        "type": "integer",
+        "title": "Results per search",
+        "description": "Default number of hits web_search_parallel returns.",
+        "default": 8,
+        "minimum": 1,
+        "maximum": 20
       },
       "maxCharacters": {
-        "type": "number"
+        "type": "integer",
+        "title": "Excerpt characters",
+        "description": "Per result. web_fetch_parallel uses four times this.",
+        "default": 2000,
+        "minimum": 100,
+        "maximum": 50000
       },
       "timeoutMs": {
-        "type": "number"
+        "type": "integer",
+        "title": "Timeout (ms)",
+        "description": "Per-request timeout for search and fetch.",
+        "default": 30000,
+        "minimum": 1000,
+        "maximum": 300000
       },
       "minRole": {
         "type": "string",
-        "enum": ["owner", "trusted", "guest"]
+        "title": "Lowest role with access",
+        "description": "Runs below this role do not see the tools.",
+        "enum": ["owner", "trusted", "guest"],
+        "enumNames": ["Owner only", "Trusted and owner", "Everyone"],
+        "default": "trusted"
       }
     }
   }
