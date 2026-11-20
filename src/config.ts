@@ -4,6 +4,8 @@ import type { Provider } from "./types";
 export interface ProviderConfig {
   /** The API key, resolved by core from its `${secret:...}` ref. */
   apiKey?: string;
+  /** Legacy: secret name holding the key, for pre-v3 cores and unmigrated configs. */
+  secret?: string;
   baseUrl?: string;
   /** Provider search mode; the allowed values are in manifest.json. */
   mode?: string;
@@ -19,6 +21,7 @@ export interface ProviderConfig {
 
 export interface Settings {
   apiKey?: string;
+  secret: string;
   baseUrl: string;
   mode: string;
   numResults: number;
@@ -40,6 +43,7 @@ export function settings(cfg: ProviderConfig | undefined, p: Provider): Settings
   const mode = cfg?.mode ?? p.defaultMode;
   return {
     ...(cfg?.apiKey ? { apiKey: cfg.apiKey } : {}),
+    secret: cfg?.secret ?? p.secret,
     baseUrl: (cfg?.baseUrl ?? p.baseUrl).replace(/\/+$/, ""),
     mode: p.modes.includes(mode) ? mode : p.defaultMode,
     numResults: clamp(cfg?.numResults ?? 8, 1, p.maxResults),

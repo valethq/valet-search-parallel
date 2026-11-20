@@ -5,15 +5,16 @@ import { provider } from "./provider";
 import { fetchTool, searchTool } from "./tools";
 
 export default definePlugin<ProviderConfig>({
-  activate(ctx) {
+  async activate(ctx) {
     let current = settings(ctx.config, provider);
+    const key = async () => current.apiKey ?? (await ctx.secrets.get(current.secret));
     const http = makeHttp({
       provider,
       baseUrl: () => current.baseUrl,
-      secret: () => provider.secret,
-      key: async () => current.apiKey,
+      secret: () => current.secret,
+      key,
     });
-    if (!current.apiKey) ctx.log.warn("no API key yet; tools will report it until one is added");
+    if (!(await key())) ctx.log.warn("no API key yet; tools will report it until one is added");
     ctx.onConfigChange((next) => {
       current = settings(next, provider);
     });
