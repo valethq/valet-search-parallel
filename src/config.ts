@@ -2,7 +2,9 @@ import type { Role } from "@valethq/sdk";
 import type { Provider } from "./types";
 
 export interface ProviderConfig {
-  /** Secret name holding the API key (file ~/.valet/secrets/<name>, then the env var <NAME>). */
+  /** The API key, resolved by core from its `${secret:...}` ref. */
+  apiKey?: string;
+  /** Legacy: secret name holding the key, for pre-v3 cores and unmigrated configs. */
   secret?: string;
   baseUrl?: string;
   /** Provider search mode; the allowed values are in manifest.json. */
@@ -18,6 +20,7 @@ export interface ProviderConfig {
 }
 
 export interface Settings {
+  apiKey?: string;
   secret: string;
   baseUrl: string;
   mode: string;
@@ -39,6 +42,7 @@ const clamp = (n: number, lo: number, hi: number) => Math.min(Math.max(Math.trun
 export function settings(cfg: ProviderConfig | undefined, p: Provider): Settings {
   const mode = cfg?.mode ?? p.defaultMode;
   return {
+    ...(cfg?.apiKey ? { apiKey: cfg.apiKey } : {}),
     secret: cfg?.secret ?? p.secret,
     baseUrl: (cfg?.baseUrl ?? p.baseUrl).replace(/\/+$/, ""),
     mode: p.modes.includes(mode) ? mode : p.defaultMode,
