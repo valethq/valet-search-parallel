@@ -5,9 +5,17 @@
   "version": "0.1.0",
   "description": "web_search_parallel and web_fetch_parallel tools backed by the Parallel API.",
   "repository": "https://github.com/valethq/valet-search-parallel",
-  "valet": "^0.1.0",
+  "valet": "^0.1.1",
   "main": "./src/index.ts",
   "provides": ["tools@1"],
+  "acl": {
+    "permissions": {
+      "query": {
+        "summary": "Run web searches with Parallel",
+        "default": "guest"
+      }
+    }
+  },
   "settings": {
     "sections": {
       "tools": {
