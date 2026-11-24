@@ -1,6 +1,6 @@
 # valet-search-parallel
 
-tools@1 web_search_exa and web_fetch_exa tools backed by the Parallel API.
+tools@1 web_search_parallel and web_fetch_parallel tools backed by the Parallel API.
 
 Rules for this repo. The contract lives in `../valet-core`.
 
